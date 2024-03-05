@@ -12,26 +12,26 @@ class GensimModels():
 	"""
 
 	def build_word2vec(self, corpus, load_pretrained=False, path_pretrained=""):
-		print "\n\n...Start to build Word2Vec Models with Gensim"
+		print ("\n\n...Start to build Word2Vec Models with Gensim")
 
 		time_start = time.time()
 		cores = multiprocessing.cpu_count()
 
 		model = gensim.models.Word2Vec(corpus, size=Config.WOR_DIM, window=Config.FILTERING, min_count=Config.FILTERING, workers=cores)
 
-		print "Word Embedding Dimension:", Config.WOR_DIM
-		print "Word Window & Filtering:", Config.FILTERING
+		print ("Word Embedding Dimension:", Config.WOR_DIM)
+		print ("Word Window & Filtering:", Config.FILTERING)
 
-		print "Unique Words Count:", len(model.wv.vocab)
+		print ("Unique Words Count:", len(model.wv.vocab))
 
 		return model
 
 	def save_word2vec(self, model, path):
-		print "\n\n...Save Word2Vec with a file name of", path
+		print ("\n\n...Save Word2Vec with a file name of", path)
 		model.wv.save_word2vec_format(path, binary=True)
 
 	def load_word2vec(self, path):
-		print "\n\n...Load Word2Vec with a file name of", path
+		print ("\n\n...Load Word2Vec with a file name of", path)
 		model = KeyedVectors.load_word2vec_format(path, binary=True)
 		return model
 
@@ -40,7 +40,7 @@ class GensimModels():
 
 	"""
 	def build_doc2vec(self, corpus, load_pretrained=False, path_pretrained=""):
-		print "\n\n...Start to build Doc2Vec Models with Gensim"
+		print ("\n\n...Start to build Doc2Vec Models with Gensim")
 
 		time_start = time.time()
 		cores = multiprocessing.cpu_count()
@@ -66,30 +66,30 @@ class GensimModels():
 
 		if load_pretrained:
 			#model_loaded = self.load_word2vec(path_pretrained)
-			print "...Update Input Vectors with Pre-Trained Vectors:", path_pretrained
+			print ("...Update Input Vectors with Pre-Trained Vectors:", path_pretrained)
 			model.intersect_word2vec_format(path_pretrained, lockf=0.0, binary=True, encoding='utf8', unicode_errors='strict')
 
 		#print len(model)
 		#print model.vocab
 
-		print "Document Embedding Dimension:", Config.DOC_DIM
-		print "Document Window & Filtering:", Config.FILTERING
+		print ("Document Embedding Dimension:", Config.DOC_DIM)
+		print ("Document Window & Filtering:", Config.FILTERING)
 
 
-		print "Unique Words Count:", len(model.wv.vocab)
-		print "Total Documents Count:", model.corpus_count
+		print ("Unique Words Count:", len(model.wv.vocab))
+		print ("Total Documents Count:", model.corpus_count)
 
 
-		print "\n\n...Training Started"
+		print ("\n\n...Training Started")
 		model.train(corpus, total_examples=model.corpus_count, epochs=model.iter)
 
-		print "Doc2Vec training done!"
-		print "Time elapsed: {} seconds".format(time.time()-time_start)
+		print ("Doc2Vec training done!")
+		print ("Time elapsed: {} seconds".format(time.time()-time_start))
 
 		return model
 
 	def build_doc2vec_compounds(self, corpus, load_pretrained=False, path_pretrained=""):
-		print "\n\n...Start to build Doc2Vec Models with Gensim"
+		print ("\n\n...Start to build Doc2Vec Models with Gensim")
 
 		time_start = time.time()
 		cores = multiprocessing.cpu_count()
@@ -109,21 +109,21 @@ class GensimModels():
 												dbow_words=1, dm_mean=0)
 		model.build_vocab(corpus, keep_raw_vocab=True)
 
-		print "Document Embedding Dimension:", Config.DOC_DIM
-		print "Document Window & Filtering:", Config.FILTERING
+		print ("Document Embedding Dimension:", Config.DOC_DIM)
+		print ("Document Window & Filtering:", Config.FILTERING)
 
 
-		print "Unique Words Count:", len(model.wv.vocab)
-		print "Total Documents Count:", model.corpus_count
+		print ("Unique Words Count:", len(model.wv.vocab))
+		print ("Total Documents Count:", model.corpus_count)
 
 		if load_pretrained:
 			model.intersect_word2vec_format(path_pretrained, lockf=0.0, binary=True, encoding='utf8', unicode_errors='strict')
 
-		print "\n\n...Training Started"
+		print ("\n\n...Training Started")
 		model.train(corpus, total_examples=model.corpus_count, epochs=model.iter)
 
-		print "Doc2Vec training done!"
-		print "Time elapsed: {} seconds".format(time.time()-time_start)
+		print ("Doc2Vec training done!")
+		print ("Time elapsed: {} seconds".format(time.time()-time_start))
 
 		return model
 

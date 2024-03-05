@@ -1,5 +1,6 @@
 import seaborn as sns
-import plotly.plotly as py
+import chart_studio.plotly
+import chart_studio.plotly.plotly as py
 import plotly.graph_objs as go
 import plotly.offline as offline
 from sklearn.manifold import TSNE
@@ -9,7 +10,7 @@ import numpy as np
 from sklearn.cluster import KMeans
 
 
-import DataLoader
+from utils import DataLoader
 import Config
 
 
@@ -139,7 +140,7 @@ TSNE of Doc2Vec
 
 """
 def load_TSNE(model, dim=2):
-	print "\nt-SNE Started... "
+	print ("\nt-SNE Started... ")
 	time_start = time.time()
 
 	X = []
@@ -148,8 +149,8 @@ def load_TSNE(model, dim=2):
 	tsne = TSNE(n_components=dim)
 	X_tsne = tsne.fit_transform(X)
 
-	print "t-SNE done!"
-	print "Time elapsed: {} seconds".format(time.time()-time_start)
+	print ("t-SNE done!")
+	print ("Time elapsed: {} seconds".format(time.time()-time_start))
 
 	return X_tsne
 
